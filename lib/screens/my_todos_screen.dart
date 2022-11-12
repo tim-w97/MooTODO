@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:moo_todo/widgets/add_new_todo.dart';
 import 'package:moo_todo/widgets/todo_list.dart';
 
 class MyTodosScreen extends StatelessWidget {
@@ -14,7 +15,26 @@ class MyTodosScreen extends StatelessWidget {
           Icons.add,
           color: Colors.brown.shade100,
         ),
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            context: context,
+            builder: (context) => SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                decoration: BoxDecoration(
+                  color: Colors.brown.shade200,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(30),
+                  ),
+                ),
+                child: const AddNewTodo(),
+              ),
+            ),
+          );
+        },
       ),
       backgroundColor: Colors.brown.shade100,
       body: SafeArea(
