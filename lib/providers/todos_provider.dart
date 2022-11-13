@@ -18,8 +18,8 @@ class TodosProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setDoneStatus({required Todo of, required bool to}) {
-    of.isDone = to;
+  void toggleDone({required Todo of}) {
+    of.isDone = !of.isDone;
     notifyListeners();
   }
 }

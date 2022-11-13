@@ -20,26 +20,27 @@ class TodoItem extends StatelessWidget {
           onLongPress: () {
             todosProvider.removeTodo(todo);
           },
-          child: Row(
-            children: [
-              Text(
-                todo.text,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: todo.isDone ? Colors.brown.shade400 : Colors.brown,
-                  decoration: todo.isDone ? TextDecoration.lineThrough : null,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              children: [
+                Text(
+                  todo.text,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: todo.isDone ? Colors.brown.shade400 : Colors.brown,
+                    decoration: todo.isDone ? TextDecoration.lineThrough : null,
+                  ),
                 ),
-              ),
-              const Spacer(),
-              TodoCheckbox(
-                value: todo.isDone,
-                onChanged: (newValue) {
-                  if (newValue == null) return;
-
-                  todosProvider.setDoneStatus(of: todo, to: newValue);
-                },
-              ),
-            ],
+                const Spacer(),
+                TodoCheckbox(
+                  isChecked: todo.isDone,
+                  onTap: () {
+                    todosProvider.toggleDone(of: todo);
+                  },
+                ),
+              ],
+            ),
           ),
         );
       },

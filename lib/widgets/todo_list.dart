@@ -15,9 +15,7 @@ class TodoList extends StatelessWidget {
     return ListView.builder(
       itemCount: todos.length,
       itemBuilder: (context, index) {
-        final todo = todos[index];
-
-        return TodoItem(todo: todo);
+        return TodoItem(todo: todos[index]);
       },
     );
   }
