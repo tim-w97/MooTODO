@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:moo_todo/models/todo.dart';
+import 'package:moo_todo/providers/todos_provider.dart';
+import 'package:provider/provider.dart';
 
 class AddNewTodo extends StatelessWidget {
-  final Function(String) onAddNewTodo;
-
-  const AddNewTodo({
-    Key? key,
-    required this.onAddNewTodo,
-  }) : super(key: key);
+  const AddNewTodo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +38,11 @@ class AddNewTodo extends StatelessWidget {
           const SizedBox(height: 30),
           MaterialButton(
             onPressed: () {
-              onAddNewTodo(todoTextController.text);
+              Provider.of<TodosProvider>(context, listen: false).addNewTodo(
+                Todo(text: todoTextController.text),
+              );
+
+              Navigator.pop(context);
             },
             color: Colors.brown.shade300,
             shape: const StadiumBorder(),

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:moo_todo/models/todo.dart';
+import 'package:moo_todo/providers/todos_provider.dart';
 import 'package:moo_todo/widgets/todo_checkbox.dart';
+import 'package:provider/provider.dart';
 
 class TodoItem extends StatelessWidget {
-  final String text;
-  final bool isDone;
-  final Function(bool?)? onChanged;
+  final Todo todo;
 
   const TodoItem({
     Key? key,
-    required this.text,
-    this.isDone = false,
-    this.onChanged,
+    required this.todo,
   }) : super(key: key);
 
   @override
@@ -18,17 +17,31 @@ class TodoItem extends StatelessWidget {
     return Row(
       children: [
         Text(
-          text,
+          todo.text,
           style: TextStyle(
             fontSize: 20,
-            color: isDone ? Colors.brown.shade400 : Colors.brown,
-            decoration: isDone ? TextDecoration.lineThrough : null,
+            color: todo.isDone ? Colors.brown.shade400 : Colors.brown,
+            decoration: todo.isDone ? TextDecoration.lineThrough : null,
           ),
         ),
         const Spacer(),
         TodoCheckbox(
-          value: isDone,
-          onChanged: onChanged,
+          value: todo.isDone,
+          onChanged: (newValue) {
+            if (newValue == null) return;
+
+            Provider.of<TodosProvider>(context, listen: false)
+                .setDoneStatus(of: todo, to: newValue);
+          },
+        ),
+        IconButton(
+          onPressed: () {
+            Provider.of<TodosProvider>(context, listen: false).removeTodo(todo);
+          },
+          icon: const Icon(
+            Icons.delete,
+            color: Colors.brown,
+          ),
         ),
       ],
     );
