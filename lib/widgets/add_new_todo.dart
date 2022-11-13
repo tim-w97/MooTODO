@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 
 class AddNewTodo extends StatelessWidget {
-  const AddNewTodo({Key? key}) : super(key: key);
+  final Function(String) onAddNewTodo;
+
+  const AddNewTodo({
+    Key? key,
+    required this.onAddNewTodo,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final todoTextController = TextEditingController();
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 70),
       child: Column(
@@ -20,9 +27,10 @@ class AddNewTodo extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 30),
-          const TextField(
+          TextField(
+            controller: todoTextController,
             autofocus: true,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               fillColor: Colors.brown,
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.brown),
@@ -31,7 +39,9 @@ class AddNewTodo extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              onAddNewTodo(todoTextController.text);
+            },
             color: Colors.brown.shade300,
             shape: const StadiumBorder(),
             child: Text(

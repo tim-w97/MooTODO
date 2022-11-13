@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:moo_todo/models/todo.dart';
 import 'package:moo_todo/widgets/add_new_todo.dart';
 import 'package:moo_todo/widgets/todo_list.dart';
 
-class MyTodosScreen extends StatelessWidget {
+class MyTodosScreen extends StatefulWidget {
   const MyTodosScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MyTodosScreen> createState() => _MyTodosScreenState();
+}
+
+class _MyTodosScreenState extends State<MyTodosScreen> {
+  List<Todo> todos = [
+    Todo(text: "Buy eggs"),
+    Todo(text: "Buy milk"),
+    Todo(text: "Buy cornflakes"),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +42,14 @@ class MyTodosScreen extends StatelessWidget {
                     top: Radius.circular(30),
                   ),
                 ),
-                child: const AddNewTodo(),
+                child: AddNewTodo(
+                  onAddNewTodo: (text) {
+                    setState(() {
+                      todos.add(Todo(text: text));
+                      Navigator.pop(context);
+                    });
+                  },
+                ),
               ),
             ),
           );
@@ -81,7 +100,14 @@ class MyTodosScreen extends StatelessWidget {
                     top: Radius.circular(30),
                   ),
                 ),
-                child: const TodoList(),
+                child: TodoList(
+                  todos: todos,
+                  onTodoChecked: (todo, newValue) {
+                    setState(() {
+                      todo.set(isDone: newValue);
+                    });
+                  },
+                ),
               ),
             ),
           ],

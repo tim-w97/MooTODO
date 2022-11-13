@@ -1,19 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:moo_todo/models/todo.dart';
 import 'package:moo_todo/widgets/todo_item.dart';
 
 class TodoList extends StatelessWidget {
-  const TodoList({Key? key}) : super(key: key);
+  final List<Todo> todos;
+
+  final Function(Todo, bool) onTodoChecked;
+
+  const TodoList({
+    Key? key,
+    required this.todos,
+    required this.onTodoChecked,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: const [
-        TodoItem(),
-        TodoItem(),
-        TodoItem(),
-        TodoItem(),
-        TodoItem(),
-      ],
+    return ListView.builder(
+      itemCount: todos.length,
+      itemBuilder: (context, index) {
+        final todo = todos[index];
+
+        return TodoItem(
+          text: todo.text,
+          isDone: todo.isDone,
+          onChanged: (newValue) {
+            onTodoChecked(todo, newValue ?? false);
+          },
+        );
+      },
     );
   }
 }

@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:moo_todo/widgets/todo_checkbox.dart';
 
-class TodoItem extends StatefulWidget {
-  const TodoItem({Key? key}) : super(key: key);
+class TodoItem extends StatelessWidget {
+  final String text;
+  final bool isDone;
+  final Function(bool?)? onChanged;
 
-  @override
-  State<TodoItem> createState() => _TodoItemState();
-}
-
-class _TodoItemState extends State<TodoItem> {
-  bool isDone = false;
+  const TodoItem({
+    Key? key,
+    required this.text,
+    this.isDone = false,
+    this.onChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Text(
-          "a Dummy TODO item",
+          text,
           style: TextStyle(
             fontSize: 20,
             color: isDone ? Colors.brown.shade400 : Colors.brown,
@@ -25,10 +27,9 @@ class _TodoItemState extends State<TodoItem> {
         ),
         const Spacer(),
         TodoCheckbox(
-            value: isDone,
-            onChanged: (newValue) {
-              setState(() => isDone = newValue ?? false);
-            }),
+          value: isDone,
+          onChanged: onChanged,
+        ),
       ],
     );
   }
