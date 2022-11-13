@@ -14,36 +14,39 @@ class TodoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          todo.text,
-          style: TextStyle(
-            fontSize: 20,
-            color: todo.isDone ? Colors.brown.shade400 : Colors.brown,
-            decoration: todo.isDone ? TextDecoration.lineThrough : null,
-          ),
-        ),
-        const Spacer(),
-        TodoCheckbox(
-          value: todo.isDone,
-          onChanged: (newValue) {
-            if (newValue == null) return;
+    return Consumer<TodosProvider>(
+      builder: (context, todosProvider, child) {
+        return Row(
+          children: [
+            Text(
+              todo.text,
+              style: TextStyle(
+                fontSize: 20,
+                color: todo.isDone ? Colors.brown.shade400 : Colors.brown,
+                decoration: todo.isDone ? TextDecoration.lineThrough : null,
+              ),
+            ),
+            const Spacer(),
+            TodoCheckbox(
+              value: todo.isDone,
+              onChanged: (newValue) {
+                if (newValue == null) return;
 
-            Provider.of<TodosProvider>(context, listen: false)
-                .setDoneStatus(of: todo, to: newValue);
-          },
-        ),
-        IconButton(
-          onPressed: () {
-            Provider.of<TodosProvider>(context, listen: false).removeTodo(todo);
-          },
-          icon: const Icon(
-            Icons.delete,
-            color: Colors.brown,
-          ),
-        ),
-      ],
+                todosProvider.setDoneStatus(of: todo, to: newValue);
+              },
+            ),
+            IconButton(
+              onPressed: () {
+                todosProvider.removeTodo(todo);
+              },
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.brown,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

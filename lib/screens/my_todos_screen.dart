@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:moo_todo/models/todo.dart';
 import 'package:moo_todo/widgets/add_new_todo.dart';
 import 'package:moo_todo/widgets/todo_list.dart';
 
